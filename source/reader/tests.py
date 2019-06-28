@@ -22,6 +22,8 @@ class MyTestCase(unittest.TestCase):
         # noinspection PyUnresolvedReferences
         self.assertEqual(cm.exception.code, 1)
 
+        self.assertEqual(file_to_str(test_path, False), None)
+
     def test_path(self):
         folder = ROOT_DIR + "/html_tests"
         test_path = folder + "/test.html"

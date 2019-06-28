@@ -6,9 +6,10 @@
 import sys
 
 
-def file_to_str(file_path):
+def file_to_str(file_path, exit_when_fails=True):
     """
         Get the string content of a file
+    :param exit_when_fails: exit when the call fails
     :param file_path: the file path
     :return:
     """
@@ -17,6 +18,9 @@ def file_to_str(file_path):
         content = file.read()
         file.close()
     except FileNotFoundError as _:
-        print("Error : No such file : " + file_path)
-        sys.exit(1)
+        if exit_when_fails:
+            print("Error : No such file : " + file_path)
+            sys.exit(1)
+        else:
+            return None
     return content

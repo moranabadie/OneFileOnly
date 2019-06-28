@@ -3,6 +3,8 @@
     Created by Abadie Moran at 28/06/2019
 
 """
+from source.reader.file import file_to_str
+
 _SCRIPT_SPLIT = "<script "
 _SCRIPT_END_SPLIT = "</script>"
 _SRC_POSSIBILITIES = [("src='", "'"), ('src="', '"')]
@@ -60,5 +62,19 @@ def _src_parser(split_code, src_possibility, folder):
     if len(split_script) < 2:
         return _SCRIPT_SPLIT + split_code
     inside = split_script[0]
-
+    content = _get_content(inside, folder)
+    print(content)
     return inside
+
+
+def _get_content(path, folder):
+    """
+        Try to get the content of the js file
+    :param path: the path of the js file
+    :param folder: the folder of the html file
+    :return:
+    """
+    content = file_to_str(path, False)
+    if content is None:
+        content = file_to_str(folder + "/" + path, False)
+    return content
