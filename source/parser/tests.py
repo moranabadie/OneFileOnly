@@ -5,7 +5,8 @@ import os
 import unittest
 
 from source import ROOT_DIR
-from source.parser.replace_js import _right_script, _src_parser, _SCRIPT_SPLIT, _get_content
+from source.parser.replace_js import _right_script, _src_parser, _SCRIPT_SPLIT, _get_content, \
+    _SCRIPT_END_SPLIT, replace_js
 
 
 class MyTestCase(unittest.TestCase):
@@ -29,15 +30,19 @@ class MyTestCase(unittest.TestCase):
         self.assertNotEqual(content, None)
 
         code = ' src=js/test.js>'
-        new_code = _src_parser(code, ('src="', '"'), root_dir)
-        self.assertEqual(new_code, _SCRIPT_SPLIT + code)
+        new_code = _src_parser(code + _SCRIPT_END_SPLIT, code, ('src="', '"'), root_dir)
+        self.assertEqual(new_code, _SCRIPT_SPLIT + code + _SCRIPT_END_SPLIT)
         code = ' src="js/test.js\'>'
-        new_code = _src_parser(code, ('src="', '"'), root_dir)
-        self.assertEqual(new_code, _SCRIPT_SPLIT + code)
+        new_code = _src_parser(code + _SCRIPT_END_SPLIT, code, ('src="', '"'), root_dir)
+        self.assertEqual(new_code, _SCRIPT_SPLIT + code + _SCRIPT_END_SPLIT)
 
         code = ' src="js/test.js">'
-        new_code = _src_parser(code, ('src="', '"'), root_dir)
-        self.assertNotEqual(new_code, _SCRIPT_SPLIT + code)
+        new_code = _src_parser(code + _SCRIPT_END_SPLIT, code, ('src="', '"'), root_dir)
+        self.assertNotEqual(new_code, _SCRIPT_SPLIT + code + _SCRIPT_END_SPLIT)
+
+        code = ' src="js/test.j">'
+        new_code = _src_parser(code + _SCRIPT_END_SPLIT, code, ('src="', '"'), root_dir)
+        self.assertEqual(new_code, _SCRIPT_SPLIT + code + _SCRIPT_END_SPLIT)
 
         code = ' src="js/test.js"></scrip>'
         new_code = _right_script(code, root_dir)
@@ -50,3 +55,31 @@ class MyTestCase(unittest.TestCase):
         code = ' src="js/test.js"></script>'
         new_code = _right_script(code, root_dir)
         self.assertNotEqual(new_code, _SCRIPT_SPLIT + code)
+
+        code = '<scrip src="js/test.js"></script>'
+        new_code = replace_js(code, root_dir)
+        self.assertEqual(new_code, code)
+
+        code = '<script src="js/test.js"></script'
+        new_code = replace_js(code, root_dir)
+        self.assertEqual(new_code, code)
+
+        code = '<script src=js/test.js"></script>'
+        new_code = replace_js(code, root_dir)
+        self.assertEqual(new_code, code)
+
+        code = '<script src=\'js/test.js"></script>'
+        new_code = replace_js(code, root_dir)
+        self.assertEqual(new_code, code)
+
+        code = '<script src=\'js/test.j"></script>'
+        new_code = replace_js(code, root_dir)
+        self.assertEqual(new_code, code)
+
+        code = '<script src="js/test.js"></script>'
+        new_code = replace_js(code, root_dir)
+        self.assertNotEqual(new_code, code)
+
+        code = '<script src="' + root_dir + '/js/test.js"></script>'
+        new_code = replace_js(code, root_dir)
+        self.assertNotEqual(new_code, code)
