@@ -24,3 +24,21 @@ def file_to_str(file_path, exit_when_fails=True):
         else:
             return None
     return content
+
+
+def str_to_file(file_path, content):
+    """
+        Write a string into a file
+    :param content: the content of the new file
+    :param file_path: the file path
+    :return:
+    """
+    try:
+        f = open(file_path, "w")
+        try:
+            f.write(content)
+        finally:
+            f.close()
+    except IOError:
+        print("Error : Cannot write into a file : " + file_path)
+        sys.exit(1)

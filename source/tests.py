@@ -5,5 +5,6 @@ import unittest
 
 
 class MyTestCase(unittest.TestCase):
-    def test_read_file(self):
-        self.assertEqual(True, True)
+    def test_import_run(self):
+        import run
+        self.assertNotEqual(run, None)

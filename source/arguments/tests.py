@@ -1,6 +1,7 @@
 """
     Test the folder
 """
+import os
 import sys
 import unittest
 from io import StringIO
@@ -18,7 +19,7 @@ class MyTestCase(unittest.TestCase):
             before = sys.stdout
             captured_output = StringIO()
             sys.stdout = captured_output
-            call_function(h)
+            call_function([h])
             self.assertTrue(SHOW_MESSAGE in captured_output.getvalue())
             sys.stdout = before
 
@@ -26,7 +27,7 @@ class MyTestCase(unittest.TestCase):
         before = sys.stdout
         captured_output = StringIO()
         sys.stdout = captured_output
-        call_function(command)
+        call_function([command])
         self.assertTrue(AN_ERROR in captured_output.getvalue())
         sys.stdout = before
 
@@ -34,6 +35,32 @@ class MyTestCase(unittest.TestCase):
         before = sys.stdout
         captured_output = StringIO()
         sys.stdout = captured_output
-        call_function(command)
+        call_function([command])
         self.assertTrue(AN_ERROR not in captured_output.getvalue())
         sys.stdout = before
+
+        self.assertTrue(os.path.isfile(ROOT_DIR + "/../one_file.html"))
+        os.remove(ROOT_DIR + "/../one_file.html")
+
+        command = ROOT_DIR + "/html_tests/test.html"
+        before = sys.stdout
+        captured_output = StringIO()
+        sys.stdout = captured_output
+        call_function([command])
+        self.assertTrue(AN_ERROR not in captured_output.getvalue())
+        sys.stdout = before
+
+        self.assertTrue(os.path.isfile(ROOT_DIR + "/../one_file.html"))
+        os.remove(ROOT_DIR + "/../one_file.html")
+
+        command = ROOT_DIR + "/html_tests/test.html"
+        command2 = ROOT_DIR + "/../delete.html"
+        before = sys.stdout
+        captured_output = StringIO()
+        sys.stdout = captured_output
+        call_function([command, command2])
+        self.assertTrue(AN_ERROR not in captured_output.getvalue())
+        sys.stdout = before
+
+        self.assertTrue(os.path.isfile(ROOT_DIR + "/../delete.html"))
+        os.remove(ROOT_DIR + "/../delete.html")

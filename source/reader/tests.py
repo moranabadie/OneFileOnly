@@ -5,12 +5,29 @@ import os
 import unittest
 
 from source import ROOT_DIR
-from source.reader.file import file_to_str
+from source.reader.file import file_to_str, str_to_file
 from source.reader.get_content import get_content
 from source.reader.get_folder import get_folder_of_file
 
 
 class MyTestCase(unittest.TestCase):
+    def test_str_to_file(self):
+        test_path = ROOT_DIR + "/delete.html"
+        content = "test"
+        str_to_file(test_path, content)
+        new_content = file_to_str(test_path)
+        self.assertEqual(new_content, content)
+        os.remove(test_path)
+
+        test_path = ROOT_DIR + "/fake/"
+        # noinspection PyTypeChecker
+        with self.assertRaises(SystemExit) as cm:
+            content = "test"
+            str_to_file(test_path, content)
+
+        # noinspection PyUnresolvedReferences
+        self.assertEqual(cm.exception.code, 1)
+
     def test_read_file(self):
         test_path = ROOT_DIR + "/html_tests/test.html"
         content = file_to_str(test_path)

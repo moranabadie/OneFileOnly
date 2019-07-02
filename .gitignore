@@ -2,3 +2,6 @@ venv/*
 __pycache__/
 .idea/
 test/
+delete.html
+delete2.html
+one_file.html
