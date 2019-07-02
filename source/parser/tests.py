@@ -5,8 +5,9 @@ import os
 import unittest
 
 from source import ROOT_DIR
-from source.parser.replace_js import _right_script, _src_parser, _SCRIPT_SPLIT, _SCRIPT_END_SPLIT, \
-    replace_js
+from source.parser import _SCRIPT_SPLIT, _SCRIPT_END_SPLIT
+from source.parser.link import link_parser
+from source.parser.replace_js import _right_script, replace_js
 from source.parser.root_html import root_html_parser
 from source.reader.get_content import get_content
 
@@ -33,23 +34,23 @@ class MyTestCase(unittest.TestCase):
             path_root
         )
         code = ' src=js/test.js>'
-        new_code = _src_parser(code + _SCRIPT_END_SPLIT, code, ('src="', '"'), root_dir)
+        new_code = link_parser(code + _SCRIPT_END_SPLIT, code, ('src="', '"'), root_dir)
         self.assertEqual(new_code, _SCRIPT_SPLIT + code + _SCRIPT_END_SPLIT)
         code = ' src="js/test.js\'>'
-        new_code = _src_parser(code + _SCRIPT_END_SPLIT, code, ('src="', '"'), root_dir)
+        new_code = link_parser(code + _SCRIPT_END_SPLIT, code, ('src="', '"'), root_dir)
         self.assertEqual(new_code, _SCRIPT_SPLIT + code + _SCRIPT_END_SPLIT)
 
         code = ' src="js/test.js">'
-        new_code = _src_parser(code + _SCRIPT_END_SPLIT, code, ('src="', '"'), root_dir)
+        new_code = link_parser(code + _SCRIPT_END_SPLIT, code, ('src="', '"'), root_dir)
         self.assertNotEqual(new_code, _SCRIPT_SPLIT + code + _SCRIPT_END_SPLIT)
 
         code = ' src="js/test.j">'
-        new_code = _src_parser(code + _SCRIPT_END_SPLIT, code, ('src="', '"'), root_dir)
+        new_code = link_parser(code + _SCRIPT_END_SPLIT, code, ('src="', '"'), root_dir)
         self.assertEqual(new_code, _SCRIPT_SPLIT + code + _SCRIPT_END_SPLIT)
 
         content = get_content(root_dir + '/js/test.js', "")
         code = ' src="js/test.js">'
-        new_code = _src_parser(code + _SCRIPT_END_SPLIT, code, ('src="', '"'), root_dir)
+        new_code = link_parser(code + _SCRIPT_END_SPLIT, code, ('src="', '"'), root_dir)
         self.assertEqual(new_code, "<script>\n" + content + "\n</script>")
 
     def test_replace_right(self):

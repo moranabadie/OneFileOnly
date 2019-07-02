@@ -3,14 +3,8 @@
     Created by Abadie Moran at 28/06/2019
 
 """
-from source.reader.get_content import get_content
-
-_SCRIPT_SPLIT_NO_SPACE = "<script"
-_SCRIPT_SPLIT_FULL = _SCRIPT_SPLIT_NO_SPACE + ">"
-_SCRIPT_SPLIT = _SCRIPT_SPLIT_NO_SPACE + " "
-
-_SCRIPT_END_SPLIT = "</script>"
-_SRC_POSSIBILITIES = [("src='", "'"), ('src="', '"')]
+from source.parser import _SCRIPT_SPLIT, _SCRIPT_END_SPLIT, _SRC_POSSIBILITIES
+from source.parser.link import link_parser
 
 
 def replace_js(html_code, folder):
@@ -55,33 +49,6 @@ def _right_script(split_code, folder):
             right_of_end_script = ""
             for extra_code in split_script[1:]:
                 right_of_end_script += extra_code
-            return _src_parser(split_code, inside, possibility, folder) + right_of_end_script
+            return link_parser(split_code, inside, possibility, folder) + right_of_end_script
     # 5. if nothing is found, return the original script
     return _SCRIPT_SPLIT + split_code
-
-
-def _src_parser(original_code, split_code, src_possibility, folder):
-    """
-        Find the src inside the script
-    :param folder: The original code
-    :param split_code: the code to parse
-    :param src_possibility: one of the different way of writing src
-    :param folder: the folder of the html file
-    :return: the replaced code
-    """
-    (left, right) = src_possibility
-    split_script = split_code.split(left)
-    if len(split_script) < 2:
-        return _SCRIPT_SPLIT + original_code
-    right_of_src = split_script[1]
-    split_script = right_of_src.split(right)
-    if len(split_script) < 2:
-        return _SCRIPT_SPLIT + original_code
-    inside = split_script[0]
-    content = get_content(inside, folder)
-    if content is None:
-        return _SCRIPT_SPLIT + original_code
-    new_code = _SCRIPT_SPLIT_FULL + "\n" + content + "\n" + _SCRIPT_END_SPLIT
-    return new_code
-
-
