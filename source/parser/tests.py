@@ -6,8 +6,9 @@ import unittest
 
 from source import ROOT_DIR
 from source.parser import _SCRIPT_SPLIT, _SCRIPT_END_SPLIT
+from source.parser.inside import inside_parse
 from source.parser.link import link_parser
-from source.parser.replace_js import _right_script, replace_js
+from source.parser.replace_js import replace_js
 from source.parser.root_html import root_html_parser
 from source.reader.get_content import get_content
 
@@ -59,15 +60,15 @@ class MyTestCase(unittest.TestCase):
             path_root
         )
         code = ' src="js/test.js"></scrip>'
-        new_code = _right_script(code, root_dir)
+        new_code = inside_parse(code, root_dir)
         self.assertEqual(new_code, _SCRIPT_SPLIT + code)
 
         code = ' src="js/test.js"></script> code'
-        new_code = _right_script(code, root_dir)
+        new_code = inside_parse(code, root_dir)
         self.assertNotEqual(new_code, _SCRIPT_SPLIT + code)
 
         code = ' src="js/test.js"></script>'
-        new_code = _right_script(code, root_dir)
+        new_code = inside_parse(code, root_dir)
         self.assertNotEqual(new_code, _SCRIPT_SPLIT + code)
 
     def test_replace_js(self):
