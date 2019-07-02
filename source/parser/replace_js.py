@@ -52,7 +52,10 @@ def _right_script(split_code, folder):
         # 4.1 if the src is in the code, its the right one
         if left in inside:
             # 4.2 Try to replace the code
-            return _src_parser(split_code, inside, possibility, folder)
+            right_of_end_script = ""
+            for extra_code in split_script[1:]:
+                right_of_end_script += extra_code
+            return _src_parser(split_code, inside, possibility, folder) + right_of_end_script
     # 5. if nothing is found, return the original script
     return _SCRIPT_SPLIT + split_code
 

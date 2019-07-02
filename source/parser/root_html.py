@@ -16,3 +16,4 @@ def root_html_parser(path):
     content = file_to_str(path)
     folder = get_folder_of_file(path)
     new_code = replace_js(content, folder)
+    return new_code
