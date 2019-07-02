@@ -5,7 +5,10 @@
 """
 from source.reader.file import file_to_str
 
-_SCRIPT_SPLIT = "<script "
+_SCRIPT_SPLIT_NO_SPACE = "<script"
+_SCRIPT_SPLIT_FULL = _SCRIPT_SPLIT_NO_SPACE + ">"
+_SCRIPT_SPLIT = _SCRIPT_SPLIT_NO_SPACE + " "
+
 _SCRIPT_END_SPLIT = "</script>"
 _SRC_POSSIBILITIES = [("src='", "'"), ('src="', '"')]
 
@@ -75,8 +78,8 @@ def _src_parser(original_code, split_code, src_possibility, folder):
     content = _get_content(inside, folder)
     if content is None:
         return _SCRIPT_SPLIT + original_code
-
-    return inside
+    new_code = _SCRIPT_SPLIT_FULL + "\n" + content + "\n" + _SCRIPT_END_SPLIT
+    return new_code
 
 
 def _get_content(path, folder):
