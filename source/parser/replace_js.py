@@ -3,7 +3,7 @@
     Created by Abadie Moran at 28/06/2019
 
 """
-from source.reader.file import file_to_str
+from source.reader.get_content import get_content
 
 _SCRIPT_SPLIT_NO_SPACE = "<script"
 _SCRIPT_SPLIT_FULL = _SCRIPT_SPLIT_NO_SPACE + ">"
@@ -78,21 +78,10 @@ def _src_parser(original_code, split_code, src_possibility, folder):
     if len(split_script) < 2:
         return _SCRIPT_SPLIT + original_code
     inside = split_script[0]
-    content = _get_content(inside, folder)
+    content = get_content(inside, folder)
     if content is None:
         return _SCRIPT_SPLIT + original_code
     new_code = _SCRIPT_SPLIT_FULL + "\n" + content + "\n" + _SCRIPT_END_SPLIT
     return new_code
 
 
-def _get_content(path, folder):
-    """
-        Try to get the content of the js file
-    :param path: the path of the js file
-    :param folder: the folder of the html file
-    :return:
-    """
-    content = file_to_str(path, False)
-    if content is None:
-        content = file_to_str(folder + "/" + path, False)
-    return content

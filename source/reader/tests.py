@@ -1,10 +1,12 @@
 """
     Testing the folder
 """
+import os
 import unittest
 
 from source import ROOT_DIR
 from source.reader.file import file_to_str
+from source.reader.get_content import get_content
 from source.reader.get_folder import get_folder_of_file
 
 
@@ -34,3 +36,22 @@ class MyTestCase(unittest.TestCase):
         test_path = folder + "/test.html"
         folder_result = get_folder_of_file(test_path)
         self.assertEqual(folder, folder_result)
+
+    def test_get_content(self):
+        path_root = ROOT_DIR + "/html_tests/test.html"
+        root_dir = os.path.dirname(
+            path_root
+        )
+        js_path = root_dir + "/js/test.j"
+        content = get_content(js_path, root_dir)
+        self.assertEqual(content, None)
+        js_path = root_dir + "/js/test.js"
+        content = get_content(js_path, root_dir)
+        self.assertNotEqual(content, None)
+        js_path = "js/test.j"
+        content = get_content(js_path, root_dir)
+        self.assertEqual(content, None)
+
+        js_path = "js/test.js"
+        content = get_content(js_path, root_dir)
+        self.assertNotEqual(content, None)
