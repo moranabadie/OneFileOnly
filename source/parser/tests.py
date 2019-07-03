@@ -39,27 +39,27 @@ class MyTestCase(unittest.TestCase):
         pattern = CodePattern(True)
         code = ' src=js/test.js>'
         new_code = link_parser(code + _SCRIPT_END_SPLIT, code,
-                               ('src="', '"'), root_dir, pattern)
+                               ('src="', '"'), root_dir, pattern, "")
         self.assertEqual(new_code, _SCRIPT_SPLIT + code + _SCRIPT_END_SPLIT)
         code = ' src="js/test.js\'>'
         new_code = link_parser(code + _SCRIPT_END_SPLIT, code,
-                               ('src="', '"'), root_dir, pattern)
+                               ('src="', '"'), root_dir, pattern, "")
         self.assertEqual(new_code, _SCRIPT_SPLIT + code + _SCRIPT_END_SPLIT)
 
         code = ' src="js/test.js">'
         new_code = link_parser(code + _SCRIPT_END_SPLIT, code,
-                               ('src="', '"'), root_dir, pattern)
+                               ('src="', '"'), root_dir, pattern, "")
         self.assertNotEqual(new_code, _SCRIPT_SPLIT + code + _SCRIPT_END_SPLIT)
 
         code = ' src="js/test.j">'
         new_code = link_parser(code + _SCRIPT_END_SPLIT, code,
-                               ('src="', '"'), root_dir, pattern)
+                               ('src="', '"'), root_dir, pattern, "")
         self.assertEqual(new_code, _SCRIPT_SPLIT + code + _SCRIPT_END_SPLIT)
 
         content = get_content(root_dir + '/js/test.js', "")
         code = ' src="js/test.js">'
         new_code = link_parser(code + _SCRIPT_END_SPLIT, code,
-                               ('src="', '"'), root_dir, pattern)
+                               ('src="', '"'), root_dir, pattern, "")
         self.assertEqual(new_code, "<script>\n" + content + "\n</script>")
 
     def test_replace_href(self):
@@ -70,28 +70,28 @@ class MyTestCase(unittest.TestCase):
         pattern = CodePattern(False)
         code = ' href=js/test.js'
         new_code = link_parser(code + _CSS_ORIGINAL_END_SPLIT, code,
-                               ('href="', '"'), root_dir, pattern)
+                               ('href="', '"'), root_dir, pattern, "")
         self.assertEqual(new_code, _CSS_SPLIT + code +
                          _CSS_ORIGINAL_END_SPLIT)
         code = ' href="js/test.js\'>'
         new_code = link_parser(code + _CSS_ORIGINAL_END_SPLIT, code,
-                               ('href="', '"'), root_dir, pattern)
+                               ('href="', '"'), root_dir, pattern, "")
         self.assertEqual(new_code, _CSS_SPLIT + code + _CSS_ORIGINAL_END_SPLIT)
 
         code = ' href="js/test.js">'
         new_code = link_parser(code + _CSS_ORIGINAL_END_SPLIT, code,
-                               ('href="', '"'), root_dir, pattern)
+                               ('href="', '"'), root_dir, pattern, "")
         self.assertNotEqual(new_code, _CSS_SPLIT + code + _CSS_ORIGINAL_END_SPLIT)
 
         code = ' href="js/test.j">'
         new_code = link_parser(code + _CSS_ORIGINAL_END_SPLIT, code,
-                               ('href="', '"'), root_dir, pattern)
+                               ('href="', '"'), root_dir, pattern, "")
         self.assertEqual(new_code, _CSS_SPLIT + code + _CSS_ORIGINAL_END_SPLIT)
 
         content = get_content(root_dir + '/css/test.css', "")
         code = ' href="css/test.css">'
         new_code = link_parser(code + _CSS_ORIGINAL_END_SPLIT, code,
-                               ('href="', '"'), root_dir, pattern)
+                               ('href="', '"'), root_dir, pattern, "")
         self.assertEqual(new_code, "<style>\n" + content + "\n</style>")
 
     def test_inside_js(self):

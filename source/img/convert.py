@@ -27,7 +27,8 @@ def path_to_bin(path):
             image_read = image.read()
 
             image_64_encode = (_DATA_IMG + format_file + _BASE_64
-                               + base64.encodebytes(image_read).decode("utf-8").replace("\n", ""))
+                               + base64.encodebytes(image_read).
+                               decode("utf-8").replace("\n", ""))
             return image_64_encode
         finally:
             image.close()

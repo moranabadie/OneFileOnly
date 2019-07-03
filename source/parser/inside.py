@@ -36,7 +36,7 @@ def inside_parse(split_code, folder, pattern):
                 first = False
                 right_of_end_script += plus_str + extra_code
             new_code = link_parser(split_code, inside, possibility, folder,
-                                   pattern)
-            return new_code + right_of_end_script
+                                   pattern, right_of_end_script)
+            return new_code
     # 5. if nothing is found, return the original script
     return pattern.original + split_code

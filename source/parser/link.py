@@ -7,9 +7,10 @@ from source.reader.get_content import get_content
 
 
 def link_parser(original_code, link_code, src_possibility,
-                folder, pattern):
+                folder, pattern, right_of_end_script):
     """
         Find the src inside the script
+    :param right_of_end_script: whats on the right of the code to change
     :param pattern: the linker structure
     :param original_code: The original code
     :param link_code: the code to parse with the link inside
@@ -30,4 +31,4 @@ def link_parser(original_code, link_code, src_possibility,
     if content is None:
         return pattern.original + original_code
     new_code = pattern.full + "\n" + content + "\n" + pattern.end
-    return new_code
+    return new_code + right_of_end_script
