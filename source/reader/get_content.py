@@ -3,6 +3,8 @@
     Created by Abadie Moran at 02/07/2019
 
 """
+import warnings
+
 from source.reader.file import file_to_str
 
 
@@ -15,5 +17,7 @@ def get_content(path, folder):
     """
     content = file_to_str(path, False)
     if content is None:
+        warnings.simplefilter("ignore")
         content = file_to_str(folder + "/" + path, False)
+        warnings.simplefilter("default")
     return content

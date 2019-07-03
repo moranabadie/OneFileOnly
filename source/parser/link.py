@@ -23,6 +23,7 @@ def link_parser(original_code, link_code, src_possibility,
     split_script = link_code.split(left)
     if len(split_script) < 2:
         return pattern.original + original_code
+    left_of_split = split_script[0]
     right_of_src = split_script[1]
     split_script = right_of_src.split(right)
     if len(split_script) < 2:
@@ -30,10 +31,16 @@ def link_parser(original_code, link_code, src_possibility,
     inside = split_script[0]
     if pattern.is_img:
         content = get_image(inside, folder)
+        extra = ""
+        for elem in split_script[1:]:
+            extra += right + elem
+        extra += pattern.end
     else:
         content = get_content(inside, folder)
+        left_of_split = ""
+        extra = pattern.between_right + pattern.end
     if content is None:
         return pattern.original + original_code
-    new_code = (pattern.full + pattern.between + content +
-                pattern.between + pattern.end)
+    new_code = (pattern.full + left_of_split + pattern.between_left + content +
+                extra)
     return new_code + right_of_end_script

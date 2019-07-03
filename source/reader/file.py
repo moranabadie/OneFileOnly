@@ -17,7 +17,7 @@ def file_to_str(file_path, exit_when_fails=True):
         file = open(file_path)
         content = file.read()
         file.close()
-    except FileNotFoundError as _:
+    except (UnicodeDecodeError, FileNotFoundError) as _:
         if exit_when_fails:
             print("Error : No such file : " + file_path)
             sys.exit(1)

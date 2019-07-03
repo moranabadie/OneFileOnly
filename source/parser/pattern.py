@@ -7,6 +7,7 @@
 _IMG_SPLIT_NO_SPACE = "<img"
 _IMG_SPLIT_FULL = _IMG_SPLIT_NO_SPACE + " "
 _IMG_SPLIT = _IMG_SPLIT_NO_SPACE + " "
+_IMG_ORIGINAL_END_SPLIT = ">"
 _IMG_END_SPLIT = ">"
 
 _SCRIPT_SPLIT_NO_SPACE = "<script"
@@ -40,18 +41,21 @@ class CodePattern:
             self.original_end = _SCRIPT_END_SPLIT
             self.end = _SCRIPT_END_SPLIT
             self.possibilities = _SRC_POSSIBILITIES
-            self.between = "\n"
+            self.between_right = "\n"
+            self.between_left = "\n"
         elif self.is_img:
             self.full = _IMG_SPLIT_FULL
             self.original = _IMG_SPLIT
-            self.original_end = _IMG_END_SPLIT
+            self.original_end = _IMG_ORIGINAL_END_SPLIT
             self.end = _IMG_END_SPLIT
             self.possibilities = _SRC_POSSIBILITIES
-            self.between = ""
+            self.between_right = "\""
+            self.between_left = "src=\""
         else:
             self.full = _CSS_END_NO_SPACE
             self.original = _CSS_SPLIT
             self.original_end = _CSS_ORIGINAL_END_SPLIT
             self.end = _CSS_END_SPLIT
             self.possibilities = _HREF_POSSIBILITIES
-            self.between = "\n"
+            self.between_right = "\n"
+            self.between_left = "\n"
