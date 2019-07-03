@@ -6,7 +6,7 @@
 from source.parser.inside import inside_parse
 
 
-def replace_css_or_js(html_code, folder, pattern):
+def replace_pattern(html_code, folder, pattern):
     """
         Replace the js code or the css code
     :param pattern: the pattern code for the css or the js

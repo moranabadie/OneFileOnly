@@ -3,6 +3,7 @@
     Created by Abadie Moran at 02/07/2019
 
 """
+from source.img.get_img import get_image
 from source.reader.get_content import get_content
 
 
@@ -27,8 +28,12 @@ def link_parser(original_code, link_code, src_possibility,
     if len(split_script) < 2:
         return pattern.original + original_code
     inside = split_script[0]
-    content = get_content(inside, folder)
+    if pattern.is_img:
+        content = get_image(inside, folder)
+    else:
+        content = get_content(inside, folder)
     if content is None:
         return pattern.original + original_code
-    new_code = pattern.full + "\n" + content + "\n" + pattern.end
+    new_code = (pattern.full + pattern.between + content +
+                pattern.between + pattern.end)
     return new_code + right_of_end_script

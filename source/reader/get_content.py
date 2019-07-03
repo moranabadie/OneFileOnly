@@ -11,7 +11,7 @@ def get_content(path, folder):
         Try to get the content of the js file
     :param path: the path of the js file
     :param folder: the folder of the html file
-    :return:
+    :return: the content of the file
     """
     content = file_to_str(path, False)
     if content is None:

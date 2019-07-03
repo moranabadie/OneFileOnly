@@ -7,11 +7,11 @@ from source.parser.pattern import CodePattern
 from source.parser.replace_pattern import replace_pattern
 
 
-def replace_css(html_code, folder):
+def replace_img(html_code, folder):
     """
-        Put the outside css file into the html file
+        Put the outside js file into the html file
     :param folder: the folder of the html file
     :param html_code: the HTML code
     :return: the updated code
     """
-    return replace_pattern(html_code, folder, CodePattern(CodePattern.CSS))
+    return replace_pattern(html_code, folder, CodePattern(CodePattern.IMG))

@@ -4,7 +4,7 @@
 
 """
 from source.parser.pattern import CodePattern
-from source.parser.replace_js_or_css import replace_css_or_js
+from source.parser.replace_pattern import replace_pattern
 
 
 def replace_js(html_code, folder):
@@ -14,4 +14,4 @@ def replace_js(html_code, folder):
     :param html_code: the HTML code
     :return: the updated code
     """
-    return replace_css_or_js(html_code, folder, CodePattern(True))
+    return replace_pattern(html_code, folder, CodePattern(CodePattern.SCRIPT))
