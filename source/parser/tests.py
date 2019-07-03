@@ -258,8 +258,28 @@ class MyTestCase(unittest.TestCase):
         self.assertNotEqual(new_code, code)
 
         content_css_1 = get_content(root_dir + '/css/test.css', "")
-        content_css_2 = get_content(root_dir + '/css/test2.css', "")
         self.assertEqual(new_code, "test<style>\n" + content_css_1 + "\n</style>test")
+
+        code = 'test<link href="' + root_dir + \
+               '/css/test.css" /><link rel="icon" href="img/favicon.ico" />'
+        new_code = replace_css(code, root_dir)
+        self.assertNotEqual(new_code, code)
+
+        content_css_1 = get_content(root_dir + '/css/test.css', "")
+        self.assertEqual(new_code, "test<style>\n" + content_css_1 +
+                         '\n</style><link rel="icon" href="img/favicon.ico" />')
+
+        code = 'test<link rel="icon" href="img/favicon.ico" />test<link href="' + root_dir + \
+               '/css/test.css" />test<link rel="icon" href="img/favicon.ico" />test'
+        new_code = replace_css(code, root_dir)
+        self.assertNotEqual(new_code, code)
+
+        content_css_1 = get_content(root_dir + '/css/test.css', "")
+        content_css_2 = get_content(root_dir + '/css/test2.css', "")
+        self.assertEqual(new_code,
+                         'test<link rel="icon" href="img/favicon.ico" />test<style>\n' +
+                         content_css_1 +
+                         '\n</style>test<link rel="icon" href="img/favicon.ico" />test')
 
         code = get_content(root_dir + '/test.html', "")
         new_code = replace_css(code, root_dir)
