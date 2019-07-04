@@ -8,11 +8,32 @@ from source.parser.link import link_parser
 
 def inside_parse(split_code, folder, pattern):
     """
-        Manage whats at the right of <script
+        Manage whats at the right of the <script/<link/<img
+
     :param pattern: the pattern code for the css or the js
+    :type pattern: CodePattern
     :param split_code: the split code at the right of each <script
+    :type split_code: str
     :param folder: the folder of the html file
+    :type folder: str
     :return: the updated code
+    :rtype: str
+
+    Examples:
+
+    # When it is not well constructed
+    code = ' hre="css/test.css"'
+    pattern = CodePattern(CodePattern.CSS)
+    inside_parse(code, "/home/path/, pattern)
+    >> <link href="css/test.css"
+
+    # When it is well constructed
+    code = ' href="css/test.css">'
+    pattern = CodePattern(CodePattern.CSS)
+    inside_parse(code, "/home/path/, pattern)
+    >> <style>\nh1 {\nwidth: 50px;\n}\n</style>
+
+
     """
     # 1. Split with the </script>
     split_script = split_code.split(pattern.original_end)

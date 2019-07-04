@@ -12,8 +12,17 @@ from source.reader.get_folder import get_folder_of_file
 
 def root_html_parser(path):
     """
-        Parse the user root HTML, to find dependencies and replace them
+        Parse the main HTML file, to find dependencies and replace them
     :param path: the path of the main html
+    :type path: str
+    :return: the updated string of the file
+    :rtype: str
+
+    Example:
+
+    root_html_parser("/home/path/file.html")
+    >> "<!DOCTYPE html><html>[..]</html>
+
     """
     content = file_to_str(path)
     folder = get_folder_of_file(path)
