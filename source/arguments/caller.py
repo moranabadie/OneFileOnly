@@ -32,7 +32,6 @@ def call_function(options):
     if first_option in HELPERS:
         show_help()
         return
-
     if ".html" in first_option:
         new_code = root_html_parser(first_option)
         if len(options) < 2:
@@ -41,5 +40,4 @@ def call_function(options):
             basic_path = options[1]
         str_to_file(basic_path, new_code)
         return
-
     error_arguments()
