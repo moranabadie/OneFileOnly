@@ -4,6 +4,7 @@
 
 """
 from source.img.convert import path_to_bin
+from source.internet.download import download_from_link
 
 
 def get_image(path, folder):
@@ -16,4 +17,6 @@ def get_image(path, folder):
     content = path_to_bin(path)
     if content is None:
         content = path_to_bin(folder + "/" + path)
+    if content is None:
+        content = download_from_link(path, is_img=True)
     return content

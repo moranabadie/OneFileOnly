@@ -3,11 +3,9 @@
     Created by Abadie Moran at 03/07/2019
 
 """
-import base64
-import sys
 
-_BASE_64 = ";base64,"
-_DATA_IMG = "data:image/"
+from source.img.decode import decode_img
+from source.reader.file_type import get_file_type
 
 
 def path_to_bin(path):
@@ -16,23 +14,14 @@ def path_to_bin(path):
     :param path: the path of the image
     :return: the image binary or None if the file does not exists
     """
-    format_split = path.split(".")
-    format_file = format_split[len(format_split) - 1]
-    format_file = format_file.lower()
-    format_file = format_file.replace("jpg", "jpeg")
+    format_file = get_file_type(path)
     if format_file == "" or len(format_file) > 4:
         return None
     try:
         image = open(path, 'rb')
         try:
             image_read = image.read()
-            if sys.version_info[0] < 3:  # pragma: no cover
-                bytes_value = base64.b64encode(image_read)
-            else:
-                bytes_value = base64.encodebytes(image_read)
-            image_64_encode = (_DATA_IMG + format_file + _BASE_64
-                               + bytes_value.
-                               decode("utf-8").replace("\n", ""))
+            image_64_encode = decode_img(image_read, format_file)
             return image_64_encode
         finally:
             image.close()

@@ -317,6 +317,13 @@ class MyTestCase(unittest.TestCase):
         content_css_1 = get_content(root_dir + '/css/test.css', "")
         self.assertEqual(new_code, "<style>\n" + content_css_1 + "\n</style>test")
 
+        code = '<link href="file:///' + root_dir + '/css/test.css">test'
+        new_code = replace_css(code, root_dir)
+        self.assertNotEqual(new_code, code)
+
+        content_css_1 = get_content(root_dir + '/css/test.css', "")
+        self.assertEqual(new_code, "<style>\n" + content_css_1 + "\n</style>test")
+
         code = 'test<link href="' + root_dir + '/css/test.css" />test'
         new_code = replace_css(code, root_dir)
         self.assertNotEqual(new_code, code)
@@ -385,6 +392,13 @@ class MyTestCase(unittest.TestCase):
         self.assertNotEqual(new_code, code)
 
         code = '<img src="' + root_dir + '/img/tiny.png">'
+        new_code = replace_img(code, root_dir)
+        self.assertNotEqual(new_code, code)
+
+        content_img_1 = get_image(root_dir + '/img/tiny.png', "")
+        self.assertEqual(new_code, "<img src=\"" + content_img_1 + "\">")
+
+        code = '<img src="file:///' + root_dir + '/img/tiny.png">'
         new_code = replace_img(code, root_dir)
         self.assertNotEqual(new_code, code)
 

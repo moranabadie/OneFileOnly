@@ -5,6 +5,7 @@
 """
 import warnings
 
+from source.internet.download import download_from_link
 from source.reader.file import file_to_str
 
 
@@ -20,4 +21,6 @@ def get_content(path, folder):
         warnings.simplefilter("ignore")
         content = file_to_str(folder + "/" + path, False)
         warnings.simplefilter("default")
+    if content is None:
+        content = download_from_link(path)
     return content
