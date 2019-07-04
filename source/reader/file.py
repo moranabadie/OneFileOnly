@@ -10,9 +10,13 @@ import sys
 def file_to_str(file_path, exit_when_fails=True):
     """
         Get the string content of a file
+=
     :param exit_when_fails: exit when the call fails
+        :type exit_when_fails: bool
     :param file_path: the file path
-    :return:
+        :type file_path: str
+    :return: the content of the file
+        :rtype: str
     """
     (type_file, _) = mimetypes.guess_type(file_path)
     if "image" in str(type_file):
@@ -39,9 +43,11 @@ def file_to_str(file_path, exit_when_fails=True):
 def str_to_file(file_path, content):
     """
         Write a string into a file
+
     :param content: the content of the new file
+        :type content: str
     :param file_path: the file path
-    :return:
+        :type file_path: str
     """
     try:
         f = open(file_path, "w")
