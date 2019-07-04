@@ -13,8 +13,20 @@ from source.reader.file import str_to_file
 
 def call_function(options):
     """
-        Call a function depending on the option
-    :param options: the string option
+        Call a function depending on the options
+    :type options: list[str]
+    :param options: the user options
+
+    Examples :
+    call_function(["-h"])
+    >> print the help string
+
+    call_function(["/src/path/file.html"])
+    >>  Compress the file.html function in one file
+
+    call_function(["/src/path/in.html", "/src/path/out.html"])
+    >>   Compress the in.html function in one file named out.html
+
     """
     first_option = options[0]
     if first_option in HELPERS:
