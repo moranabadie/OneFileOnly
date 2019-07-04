@@ -4,6 +4,7 @@
 
 """
 import base64
+import sys
 
 _BASE_64 = ";base64,"
 _DATA_IMG = "data:image/"
@@ -25,9 +26,12 @@ def path_to_bin(path):
         image = open(path, 'rb')
         try:
             image_read = image.read()
-
+            if sys.version_info[0] < 3:  # pragma: no cover
+                bytes_value = base64.b64encode(image_read)
+            else:
+                bytes_value = base64.encodebytes(image_read)
             image_64_encode = (_DATA_IMG + format_file + _BASE_64
-                               + base64.encodebytes(image_read).
+                               + bytes_value.
                                decode("utf-8").replace("\n", ""))
             return image_64_encode
         finally:

@@ -3,6 +3,7 @@
     Created by Abadie Moran at 27/06/2019
 
 """
+import mimetypes
 import sys
 
 
@@ -13,11 +14,20 @@ def file_to_str(file_path, exit_when_fails=True):
     :param file_path: the file path
     :return:
     """
+    (type_file, _) = mimetypes.guess_type(file_path)
+    if "image" in str(type_file):
+        return None
+
+    if sys.version_info[0] < 3:  # pragma: no cover
+        error_concept = IOError
+    else:
+        error_concept = FileNotFoundError
+
     try:
         file = open(file_path)
         content = file.read()
         file.close()
-    except (UnicodeDecodeError, FileNotFoundError) as _:
+    except (UnicodeDecodeError, error_concept) as _:
         if exit_when_fails:
             print("Error : No such file : " + file_path)
             sys.exit(1)

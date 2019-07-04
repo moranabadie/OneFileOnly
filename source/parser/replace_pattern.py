@@ -22,5 +22,5 @@ def replace_pattern(html_code, folder, pattern):
     new_code = split_script[0]
     # 3. Try to replace every scripts
     for split in split_script[1:]:
-        new_code += inside_parse(split, folder, pattern)
+        new_code += str(inside_parse(split, folder, pattern))
     return new_code

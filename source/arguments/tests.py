@@ -5,13 +5,17 @@
 import os
 import sys
 import unittest
-from io import StringIO
 
 from source import ROOT_DIR
 from source.arguments import HELPERS
 from source.arguments.caller import call_function
 from source.printers.help import SHOW_MESSAGE
 from source.printers.wrong_arg import AN_ERROR
+
+if sys.version_info[0] < 3:  # pragma: no cover
+    from io import BytesIO as StringIO
+else:
+    from io import StringIO
 
 
 class MyTestCase(unittest.TestCase):

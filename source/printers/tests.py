@@ -3,10 +3,14 @@
 """
 import sys
 import unittest
-from io import StringIO
 
 from source.printers.help import show_help, SHOW_MESSAGE
 from source.printers.wrong_arg import print_wrong_argument, WRONG_ARG_MESSAGE
+
+if sys.version_info[0] < 3:  # pragma: no cover
+    from io import BytesIO as StringIO
+else:
+    from io import StringIO
 
 
 class MyTestCase(unittest.TestCase):
